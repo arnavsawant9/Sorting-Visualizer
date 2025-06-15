@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { getBubbleSortAnimations } from "../algorithms/bubbleSort";
 import { getMergeSortAnimations } from "../algorithms/mergeSort";
+import { getQuickSortAnimations } from "../algorithms/quickSort";
 import Sidebar from "./Sidebar";
+import BubbleSort from "./BubbleSort";
+import MergeSort from "./MergeSort";
+import QuickSort from "./QuickSort";
+//import HeapSort from "./HeapSort"; // If you implement it
 
 export default function SortingVisualizer() {
   const [array, setArray] = useState([]);
-  const [arraySize, setArraySize] = useState(30);
+  const [arraySize, setArraySize] = useState(40);
   const [speed, setSpeed] = useState(50);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState("bubble");
   const [isSorting, setIsSorting] = useState(false);
@@ -42,7 +47,10 @@ export default function SortingVisualizer() {
       animations = getBubbleSortAnimations(array);
     } else if (selectedAlgorithm === "merge") {
       animations = getMergeSortAnimations(array);
+    } else if (selectedAlgorithm === "quick") {
+      animations = getQuickSortAnimations(array);
     }
+    // Add more as you implement
 
     let arr = array.slice();
     for (let i = 0; i < animations.length; i++) {
@@ -78,6 +86,23 @@ export default function SortingVisualizer() {
     if (sortedIndices.includes(idx)) return "bg-green-500";
     if (activeIndices.includes(idx)) return "bg-yellow-400";
     return "bg-gradient-to-t from-blue-400 to-blue-600";
+  };
+
+  // Render the info/code component for the selected algorithm
+  const renderAlgorithmInfo = () => {
+    switch (selectedAlgorithm) {
+      case "bubble":
+        return <BubbleSort />;
+      case "merge":
+        return <MergeSort />;
+      case "quick":
+        return <QuickSort />;
+      // case "heap":
+      //   return <HeapSort />;
+      // Add more as you implement
+      default:
+        return null;
+    }
   };
 
   return (
@@ -162,6 +187,9 @@ export default function SortingVisualizer() {
             ))}
           </div>
         </div>
+
+        {/* Algorithm Info/Code Section */}
+        {renderAlgorithmInfo()}
       </main>
     </div>
   );

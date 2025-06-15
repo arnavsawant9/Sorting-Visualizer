@@ -1,5 +1,6 @@
 // src/algorithms/bubbleSort.js
 export function getBubbleSortAnimations(array) {
+  console.log("Bubble Sort Animations");
   const arr = array.slice();
   const animations = [];
   for (let i = 0; i < arr.length - 1; i++) {

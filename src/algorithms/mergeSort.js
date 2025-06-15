@@ -1,5 +1,6 @@
 // src/algorithms/mergeSort.js
 export function getMergeSortAnimations(array) {
+  console.log("Merge Sort Animations");
   const animations = [];
   if (array.length <= 1) return animations;
 
