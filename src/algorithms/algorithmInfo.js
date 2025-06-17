@@ -10,7 +10,6 @@ export const ALGORITHM_INFO = {
 
     time: "O(n²)",
     space: "O(1)",
-    code: `function bubbleSort(arr) { /* ... */ }`
   },
   merge: {
     name: "Merge Sort",

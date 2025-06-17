@@ -1,8 +1,110 @@
 // src/components/BubbleSort.jsx
+import React, { useState } from "react";
 import { ALGORITHM_INFO } from "../algorithms/algorithmInfo";
+import java from "../assets/java.png";
+import cpp from "../assets/cpp.png";
+import javascript from "../assets/javascript.png";
 
 export default function BubbleSort() {
   const info = ALGORITHM_INFO.bubble;
+  const javascript_code = `function bubbleSort(arr) {
+    let n = arr.length;
+    for (let i = 0; i < n - 1; i++) {
+      // Last i elements are already in place
+      for (let j = 0; j < n - i - 1; j++) {
+        if (arr[j] > arr[j + 1]) {
+          // Swap arr[j] and arr[j + 1]
+          [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+        }
+      }
+    }
+    return arr;
+  }
+
+  // Example
+  let arr = [64, 34, 25, 12, 22, 11, 90];
+  console.log("Sorted array:", bubbleSort(arr));
+`
+
+
+  const java_code = `public class BubbleSort {
+      static void bubbleSort(int[] arr) {
+          int n = arr.length;
+          for (int i = 0; i < n - 1; i++) {
+              // Last i elements are already sorted
+              for (int j = 0; j < n - i - 1; j++) {
+                  if (arr[j] > arr[j + 1]) {
+                      // Swap arr[j] and arr[j + 1]
+                      int temp = arr[j];
+                      arr[j] = arr[j + 1];
+                      arr[j + 1] = temp;
+                  }
+              }
+          }
+      }
+
+      static void printArray(int[] arr) {
+          for (int num : arr)
+              System.out.print(num + " ");
+          System.out.println();
+      }
+
+      public static void main(String[] args) {
+          int[] arr = {64, 34, 25, 12, 22, 11, 90};
+          bubbleSort(arr);
+          System.out.println("Sorted array:");
+          printArray(arr);
+      }
+  }
+`
+
+
+  const cpp_code =`#include <iostream>
+  using namespace std;
+
+  void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+      // Last i elements are already in place
+      for (int j = 0; j < n - i - 1; j++) {
+        if (arr[j] > arr[j + 1]) {
+          // Swap arr[j] and arr[j + 1]
+          int temp = arr[j];
+          arr[j] = arr[j + 1];
+          arr[j + 1] = temp;
+        }
+      }
+    }
+  }
+
+  void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+      cout << arr[i] << " ";
+    cout << endl;
+  }
+
+  int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    bubbleSort(arr, n);
+    cout << "Sorted array: ";
+    printArray(arr, n);
+    return 0;
+  }
+`
+  const [code, setCode] = useState(java_code);
+
+  const handleJavaCode = () => {
+    setCode(java_code);
+  }
+
+  const handleCppCode = () => {
+    setCode(cpp_code);
+  }
+
+  const handleJavascriptCode = () => {
+    setCode(javascript_code);
+  }
+
 
   return (
     <div className="w-full max-w-6xl mx-auto mt-10 p-8 bg-white rounded-3xl shadow-xl border border-blue-200">
@@ -43,9 +145,14 @@ export default function BubbleSort() {
 
       {/* Code Block */}
       <div className="mt-10">
-        <h3 className="text-xl font-semibold text-gray-700 mb-3">💡 Implementation</h3>
+        <div className="flex mb-3 gap-4">
+          <h3 className="text-xl font-semibold text-gray-700 mb-3">💡 Implementation</h3>
+          <button onClick={handleJavaCode}><img src={java} height={35} width={35}/></button>
+          <button onClick={handleCppCode}><img src={cpp} height={35} width={35}/></button>
+          <button onClick={handleJavascriptCode}><img src={javascript} height={35} width={35}/></button>
+        </div>
         <pre className="bg-gray-900 text-green-200 rounded-xl p-6 overflow-x-auto text-sm font-mono shadow-inner">
-          {info.code}
+          {code}
         </pre>
       </div>
     </div>

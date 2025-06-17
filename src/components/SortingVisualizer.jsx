@@ -116,7 +116,7 @@ export default function SortingVisualizer() {
 
       {/* Main Area */}
       <main className="flex-1 flex flex-col items-center justify-start py-8 px-4">
-        <h1 className="text-2xl font-semibold text-gray-700 mb-4">Sorting Visualizer</h1>
+        <h1 className="text-2xl font-semibold text-gray-700 mb-4 pb-2">Sorting Visualizer</h1>
 
         {/* Controls */}
         <div className="flex flex-col sm:flex-row gap-6 items-center mb-6">
