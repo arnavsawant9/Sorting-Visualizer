@@ -2,11 +2,19 @@ import { useEffect, useState } from "react";
 import { getBubbleSortAnimations } from "../algorithms/bubbleSort";
 import { getMergeSortAnimations } from "../algorithms/mergeSort";
 import { getQuickSortAnimations } from "../algorithms/quickSort";
+import { getHeapSortAnimations } from "../algorithms/heapSort";
+import { getInsertionSortAnimations } from "../algorithms/insertionSort";
+import { getSelectionSortAnimations } from "../algorithms/selectionSort"; 
+import { getShellSortAnimations } from "../algorithms/shellSort";
 import Sidebar from "./Sidebar";
 import BubbleSort from "./BubbleSort";
 import MergeSort from "./MergeSort";
 import QuickSort from "./QuickSort";
-//import HeapSort from "./HeapSort"; // If you implement it
+import HeapSort from "./HeapSort";
+import InsertionSort from "./InsertionSort";
+import SelectionSort from "./SelectionSort"; 
+import ShellSort from "./ShellSort";
+//import HeapSort from "./HeapSort"; 
 
 export default function SortingVisualizer() {
   const [array, setArray] = useState([]);
@@ -49,8 +57,16 @@ export default function SortingVisualizer() {
       animations = getMergeSortAnimations(array);
     } else if (selectedAlgorithm === "quick") {
       animations = getQuickSortAnimations(array);
+    } else if (selectedAlgorithm === "heap") {
+      animations = getHeapSortAnimations(array);
+    } else if (selectedAlgorithm === "insertion") {
+      animations = getInsertionSortAnimations(array);
+    } else if (selectedAlgorithm === "selection") {
+      animations = getSelectionSortAnimations(array);
+    } else if (selectedAlgorithm === "shell") {
+      animations = getShellSortAnimations(array);
     }
-    // Add more as you implement
+    // here is that main part ------------> main part where the sorting algorithm is selected
 
     let arr = array.slice();
     for (let i = 0; i < animations.length; i++) {
@@ -97,8 +113,14 @@ export default function SortingVisualizer() {
         return <MergeSort />;
       case "quick":
         return <QuickSort />;
-      // case "heap":
-      //   return <HeapSort />;
+      case "heap":
+        return <HeapSort />;
+      case "insertion":
+        return <InsertionSort />;
+      case "selection":
+        return <SelectionSort />;
+      case "shell":
+        return <ShellSort/>;
       // Add more as you implement
       default:
         return null;

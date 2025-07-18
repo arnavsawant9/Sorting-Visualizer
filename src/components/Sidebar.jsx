@@ -2,20 +2,14 @@ const QUADRATIC_ALGORITHMS = [
   { label: "Bubble Sort", value: "bubble" },
   { label: "Insertion Sort", value: "insertion" },
   { label: "Selection Sort", value: "selection" },
-  { label: "Shell Sort", value: "shell" },
-  { label: "Counting Sort", value: "counting" },
-  { label: "Radix Sort", value: "radix" },
-  { label: "Bucket Sort", value: "bucket" },
-  // Add more algorithms here as you implement them
+  { label: "Shell Sort", value: "shell" }
 ];
 
 const LOGARITHMIC_ALGORITHMS = [
   { label: "Merge Sort", value: "merge" },
   { label: "Quick Sort", value: "quick" },
   { label: "Heap Sort", value: "heap" },
-  // Add more algorithms here as you implement them
 ];
-
 
 
 export default function Sidebar({ selected, onSelect, disabled }) {
