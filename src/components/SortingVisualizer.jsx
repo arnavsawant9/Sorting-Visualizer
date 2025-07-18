@@ -14,7 +14,6 @@ import HeapSort from "./HeapSort";
 import InsertionSort from "./InsertionSort";
 import SelectionSort from "./SelectionSort"; 
 import ShellSort from "./ShellSort";
-//import HeapSort from "./HeapSort"; 
 
 export default function SortingVisualizer() {
   const [array, setArray] = useState([]);
@@ -66,7 +65,6 @@ export default function SortingVisualizer() {
     } else if (selectedAlgorithm === "shell") {
       animations = getShellSortAnimations(array);
     }
-    // here is that main part ------------> main part where the sorting algorithm is selected
 
     let arr = array.slice();
     for (let i = 0; i < animations.length; i++) {
@@ -121,97 +119,121 @@ export default function SortingVisualizer() {
         return <SelectionSort />;
       case "shell":
         return <ShellSort/>;
-      // Add more as you implement
       default:
         return null;
     }
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
+    <div className="flex h-screen bg-gray-100 overflow-hidden">
+      {/* Sidebar - Fixed height */}
       <Sidebar
         selected={selectedAlgorithm}
         onSelect={setSelectedAlgorithm}
         disabled={isSorting}
       />
 
-      {/* Main Area */}
-      <main className="flex-1 flex flex-col items-center justify-start py-8 px-4">
-        <h1 className="text-2xl font-semibold text-gray-700 mb-4 pb-2">Sorting Visualizer</h1>
+      {/* Main Area - Scrollable */}
+      <main className="flex-1 flex flex-col overflow-y-auto">
+        <div className="flex-1 flex flex-col items-center justify-start py-8 px-4">
+          <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6 rounded-xl shadow-lg mb-6 max-w-4xl w-full">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-bold">{selectedAlgorithm.charAt(0).toUpperCase() + selectedAlgorithm.slice(1)} Sort</h1>
+                <p className="text-blue-100 mt-1">Watch the algorithm sort {array.length} elements in real-time</p>
+              </div>
+              <div className="text-right">
+                <div className="text-3xl">{isSorting ? "🔄" : "⚡"}</div>
+                <div className="text-sm text-blue-200">Speed: {speed}%</div>
+              </div>
+            </div>
+            {/* Progress bar */}
+            <div className="mt-4">
+              <div className="w-full bg-blue-400 bg-opacity-30 rounded-full h-2">
+                <div 
+                  className="bg-white h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${array.length > 0 ? (sortedIndices.length / array.length) * 100 : 0}%` }}
+                ></div>
+              </div>
+              <div className="text-sm text-blue-200 mt-1">
+                {sortedIndices.length} of {array.length} elements sorted
+              </div>
+            </div>
+          </div>
 
-        {/* Controls */}
-        <div className="flex flex-col sm:flex-row gap-6 items-center mb-6">
-          {/* Array Size Slider */}
-          <div className="flex flex-col items-center">
-            <label className="mb-1 font-medium text-gray-700">
-              Array Size: <span className="text-indigo-600">{arraySize}</span>
-            </label>
-            <input
-              type="range"
-              min="10"
-              max="100"
-              value={arraySize}
-              onChange={handleArraySizeChange}
-              className="w-40 accent-indigo-500"
+          {/* Controls */}
+          <div className="flex flex-col sm:flex-row gap-6 items-center mb-6">
+            {/* Array Size Slider */}
+            <div className="flex flex-col items-center">
+              <label className="mb-1 font-medium text-gray-700">
+                Array Size: <span className="text-indigo-600">{arraySize}</span>
+              </label>
+              <input
+                type="range"
+                min="10"
+                max="100"
+                value={arraySize}
+                onChange={handleArraySizeChange}
+                className="w-40 accent-indigo-500"
+                disabled={isSorting}
+              />
+            </div>
+
+            {/* Speed Slider */}
+            <div className="flex flex-col items-center">
+              <label className="mb-1 font-medium text-gray-700">
+                Speed: <span className="text-indigo-600">{speed}</span>
+              </label>
+              <input
+                type="range"
+                min="1"
+                max="100"
+                value={speed}
+                onChange={handleSpeedChange}
+                className="w-40 accent-purple-500"
+                disabled={isSorting}
+              />
+            </div>
+
+            {/* Generate New Array Button */}
+            <button
+              onClick={() => generateRandomArray(arraySize)}
+              className="px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-medium rounded-lg shadow-md hover:shadow-lg hover:from-indigo-600 hover:to-purple-600 transition duration-300"
               disabled={isSorting}
-            />
-          </div>
+            >
+              Generate New Array
+            </button>
 
-          {/* Speed Slider */}
-          <div className="flex flex-col items-center">
-            <label className="mb-1 font-medium text-gray-700">
-              Speed: <span className="text-indigo-600">{speed}</span>
-            </label>
-            <input
-              type="range"
-              min="1"
-              max="100"
-              value={speed}
-              onChange={handleSpeedChange}
-              className="w-40 accent-purple-500"
+            {/* Sort Button */}
+            <button
+              onClick={handleSort}
+              className="px-6 py-2 bg-green-600 text-white font-medium rounded-lg shadow-md hover:bg-green-700 transition duration-300"
               disabled={isSorting}
-            />
+            >
+              {isSorting ? "Sorting..." : "Sort"}
+            </button>
           </div>
 
-          {/* Generate New Array Button */}
-          <button
-            onClick={() => generateRandomArray(arraySize)}
-            className="px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-medium rounded-lg shadow-md hover:shadow-lg hover:from-indigo-600 hover:to-purple-600 transition duration-300"
-            disabled={isSorting}
-          >
-            Generate New Array
-          </button>
-
-          {/* Sort Button */}
-          <button
-            onClick={handleSort}
-            className="px-6 py-2 bg-green-600 text-white font-medium rounded-lg shadow-md hover:bg-green-700 transition duration-300"
-            disabled={isSorting}
-          >
-            {isSorting ? "Sorting..." : "Sort"}
-          </button>
-        </div>
-
-        {/* Array Bars */}
-        <div className="flex justify-center items-end h-100 w-full max-w-5xl bg-white rounded-lg shadow-lg p-4">
-          <div className="flex items-end justify-center w-full">
-            {array.map((value, idx) => (
-              <div
-                key={idx}
-                className={`${getBarColor(idx)} rounded-t mx-0.5`}
-                style={{
-                  height: `${value}px`,
-                  width: `${Math.max(8, 320 / arraySize)}px`,
-                  transition: "height 0.3s, background-color 0.2s",
-                }}
-              ></div>
-            ))}
+          {/* Array Bars */}
+          <div className="flex justify-center items-end h-80 w-full max-w-5xl bg-white rounded-lg shadow-lg p-4">
+            <div className="flex items-end justify-center w-full">
+              {array.map((value, idx) => (
+                <div
+                  key={idx}
+                  className={`${getBarColor(idx)} rounded-t mx-0.5`}
+                  style={{
+                    height: `${value}px`,
+                    width: `${Math.max(8, 320 / arraySize)}px`,
+                    transition: "height 0.3s, background-color 0.2s",
+                  }}
+                ></div>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Algorithm Info/Code Section */}
-        {renderAlgorithmInfo()}
+          {/* Algorithm Info/Code Section */}
+          {renderAlgorithmInfo()}
+        </div>
       </main>
     </div>
   );
