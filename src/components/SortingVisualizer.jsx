@@ -407,23 +407,25 @@ export default function SortingVisualizer() {
 
   // Hamburger for mobile
   const Hamburger = () => (
-    <button
-      className="fixed z-30 top-4 left-4 rounded-full p-2 bg-blue-700 text-white md:hidden focus:outline-none"
-      onClick={() => setSidebarOpen(true)}
-      aria-label="Open Sidebar"
-      disabled={isSorting}
+  <button
+    className="fixed z-30 top-3 left-3 rounded-full p-2 
+               bg-blue-700/70 text-white md:hidden focus:outline-none"
+    onClick={() => setSidebarOpen(true)}
+    aria-label="Open Sidebar"
+    disabled={isSorting}
+  >
+    <svg
+      className="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
     >
-      <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        viewBox="0 0 24 24"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-    </button>
-  );
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+);
+
 
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden relative">
