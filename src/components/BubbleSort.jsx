@@ -70,23 +70,6 @@
           </div>
         </div>
 
-        {/* Code Block */}
-        {/* <div className="mt-10">
-          <div className="flex mb-3 gap-4">
-            <h3 className="text-xl font-semibold text-gray-700 mb-3">💡 Implementation</h3>
-            <button onClick={handleJavaCode}><img src={java} height={35} width={35}/></button>
-            <button onClick={handleCppCode}><img src={cpp} height={35} width={35}/></button>
-            <button onClick={handleJavascriptCode}><img src={javascript} height={35} width={35}/></button>
-          </div>
-          <div className="">
-            <pre className="bg-gray-900 text-green-200 rounded-xl p-6 overflow-x-auto text-sm font-mono shadow-inner">
-            {code}
-            </pre>
-
-            <button className="text-black">Copy</button>
-          </div>
-        </div> */}
-
         <div className="mt-10">
           <div className="flex mb-3 gap-4 items-center">
             <h3 className="text-xl font-semibold text-gray-700">
