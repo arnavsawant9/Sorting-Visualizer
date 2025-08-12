@@ -94,7 +94,7 @@ export function getMergeSortAnimations(originalArray) {
   const animations = [];
   if (originalArray.length <= 1) return animations;
 
-  // Make deep copy so we don't mutate original
+  // Make deep copy so we don't changee the original 1.
   const array = originalArray.slice();
   const auxiliaryArray = array.slice();
 

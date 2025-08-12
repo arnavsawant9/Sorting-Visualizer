@@ -305,7 +305,6 @@ export default function SortingVisualizer() {
 
   useEffect(() => {
     generateRandomArray(arraySize);
-    // eslint-disable-next-line
   }, [arraySize]);
 
   const generateRandomArray = (size = arraySize) => {
@@ -397,7 +396,6 @@ export default function SortingVisualizer() {
     }
   };
 
-  // Mobile drawer overlay
   const Overlay = () =>
     <div
       className="fixed inset-0 bg-black bg-opacity-40 z-20 md:hidden"
@@ -405,7 +403,6 @@ export default function SortingVisualizer() {
       aria-label="Close Sidebar"
     />;
 
-  // Hamburger for mobile
   const Hamburger = () => (
   <button
     className="fixed z-30 top-3 left-3 rounded-full p-2 
@@ -429,10 +426,7 @@ export default function SortingVisualizer() {
 
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden relative">
-      {/* Hamburger for mobile */}
-      <Hamburger />
-
-      {/* Sidebar Drawer for small screens */}
+      <Hamburger /> {/*this is actuallyy for the mobile part!! */}
       {sidebarOpen && <Overlay />}
       <aside
         className={`
