@@ -1,8 +1,36 @@
-// src/components/BubbleSort.jsx
+// src/components/QuickSort.jsx
 import { ALGORITHM_INFO } from "../algorithms/algorithmInfo";
+import React, { useState } from "react";
+import java from "../assets/java.png";
+import cpp from "../assets/cpp.png";
+import javascript from "../assets/javascript.png";
+import { javascript_quick_sort, java_quick_sort, cpp_quick_sort } from "../code/quickSort.js";
 
-export default function BubbleSort() {
+export default function QuickSort() {
+  const [code, setCode] = useState(java_quick_sort);
   const info = ALGORITHM_INFO.quick;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      alert("Code copied to clipboard!");
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  };
+
+  const handleJavaCode = () => {
+    setCode(java_quick_sort);
+  };
+
+  const handleCppCode = () => {
+    setCode(cpp_quick_sort);
+  };
+
+  const handleJavascriptCode = () => {
+    setCode(javascript_quick_sort);
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto mt-10 p-8 bg-white rounded-3xl shadow-xl border border-blue-200">
       {/* Title */}
@@ -40,12 +68,29 @@ export default function BubbleSort() {
         </div>
       </div>
 
-      {/* Code Block */}
       <div className="mt-10">
-        <h3 className="text-xl font-semibold text-gray-700 mb-3">💡 Implementation</h3>
+        <div className="flex mb-3 gap-4 items-center">
+          <h3 className="text-xl font-semibold text-gray-700">
+            💡 Implementation
+          </h3>
+          <button onClick={handleJavaCode}>
+            <img src={java} height={35} width={35} />
+          </button>
+          <button onClick={handleCppCode}>
+            <img src={cpp} height={35} width={35} />
+          </button>
+          <button onClick={handleJavascriptCode}>
+            <img src={javascript} height={35} width={35} />
+          </button>
+        </div>
+
         <pre className="bg-gray-900 text-green-200 rounded-xl p-6 overflow-x-auto text-sm font-mono shadow-inner">
-          {info.code}
+          {code}
         </pre>
+
+        <div className="text-black text-sm mt-2" onClick={handleCopy}>
+          <button className="text-black">Copy</button>
+        </div>
       </div>
     </div>
   );
