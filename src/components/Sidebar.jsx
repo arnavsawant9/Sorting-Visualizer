@@ -96,7 +96,6 @@ const QUADRATIC_ALGORITHMS = [
 const LOGARITHMIC_ALGORITHMS = [
   { label: "Merge Sort", value: "merge" },
   { label: "Quick Sort", value: "quick" },
-  { label: "Heap Sort", value: "heap" },
 ];
 
 // Props: mobile (bool), onClose (function)
