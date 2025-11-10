@@ -302,6 +302,8 @@ export default function SortingVisualizer() {
   const [activeIndices, setActiveIndices] = useState([]);
   const [sortedIndices, setSortedIndices] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [timeTaken, setTimeTaken] = useState(null);
+
 
   useEffect(() => {
     generateRandomArray(arraySize);
@@ -320,54 +322,68 @@ export default function SortingVisualizer() {
   const handleArraySizeChange = (e) => setArraySize(Number(e.target.value));
   const handleSpeedChange = (e) => setSpeed(Number(e.target.value));
 
-  const handleSort = async () => {
-    setIsSorting(true);
-    setSortedIndices([]);
-    let animations;
-    if (selectedAlgorithm === "bubble") {
-      animations = getBubbleSortAnimations(array);
-    } else if (selectedAlgorithm === "merge") {
-      animations = getMergeSortAnimations(array);
-    } else if (selectedAlgorithm === "quick") {
-      animations = getQuickSortAnimations(array);
-    } else if (selectedAlgorithm === "heap") {
-      animations = getHeapSortAnimations(array);
-    } else if (selectedAlgorithm === "insertion") {
-      animations = getInsertionSortAnimations(array);
-    } else if (selectedAlgorithm === "selection") {
-      animations = getSelectionSortAnimations(array);
-    } else if (selectedAlgorithm === "shell") {
-      animations = getShellSortAnimations(array);
-    }
+const handleSort = async () => {
+  setIsSorting(true);
+  setSortedIndices([]);
 
-    let arr = array.slice();
-    for (let i = 0; i < animations.length; i++) {
-      const action = animations[i];
-      if (action.type === "compare") {
-        setActiveIndices(action.indices);
-      }
-      if (action.type === "swap") {
-        arr = arr.slice();
-        const [a, b] = action.indices;
-        [arr[a], arr[b]] = [arr[b], arr[a]];
-        setArray(arr);
-        setActiveIndices(action.indices);
-      }
-      if (action.type === "overwrite") {
-        arr = arr.slice();
-        arr[action.index] = action.value;
-        setArray(arr);
-        setActiveIndices([action.index]);
-      }
-      if (action.type === "reset") {
-        setActiveIndices([]);
-      }
-      await new Promise((resolve) => setTimeout(resolve, 101 - speed));
+  // start timer
+  const startTime = performance.now();
+
+  let animations;
+  if (selectedAlgorithm === "bubble") {
+    animations = getBubbleSortAnimations(array);
+  } else if (selectedAlgorithm === "merge") {
+    animations = getMergeSortAnimations(array);
+  } else if (selectedAlgorithm === "quick") {
+    animations = getQuickSortAnimations(array);
+  } else if (selectedAlgorithm === "heap") {
+    animations = getHeapSortAnimations(array);
+  } else if (selectedAlgorithm === "insertion") {
+    animations = getInsertionSortAnimations(array);
+  } else if (selectedAlgorithm === "selection") {
+    animations = getSelectionSortAnimations(array);
+  } else if (selectedAlgorithm === "shell") {
+    animations = getShellSortAnimations(array);
+  }
+
+  let arr = array.slice();
+  for (let i = 0; i < animations.length; i++) {
+    const action = animations[i];
+    if (action.type === "compare") {
+      setActiveIndices(action.indices);
     }
-    setActiveIndices([]);
-    setSortedIndices(Array.from({ length: arr.length }, (_, i) => i));
-    setIsSorting(false);
-  };
+    if (action.type === "swap") {
+      arr = arr.slice();
+      const [a, b] = action.indices;
+      [arr[a], arr[b]] = [arr[b], arr[a]];
+      setArray(arr);
+      setActiveIndices(action.indices);
+    }
+    if (action.type === "overwrite") {
+      arr = arr.slice();
+      arr[action.index] = action.value;
+      setArray(arr);
+      setActiveIndices([action.index]);
+    }
+    if (action.type === "reset") {
+      setActiveIndices([]);
+    }
+    await new Promise((resolve) => setTimeout(resolve, 101 - speed));
+  }
+
+  setActiveIndices([]);
+  setSortedIndices(Array.from({ length: arr.length }, (_, i) => i));
+  setIsSorting(false);
+
+  // end timer
+  const endTime = performance.now();
+  const timeTaken = (endTime - startTime).toFixed(2);
+
+  // show result in console or UI
+  console.log(`Time taken: ${timeTaken} ms`);
+  setTimeTaken(timeTaken); // <-- store in state if you want to display in UI
+};
+
 
   const getBarColor = (idx) => {
     if (sortedIndices.includes(idx)) return "bg-green-500";
@@ -522,6 +538,7 @@ export default function SortingVisualizer() {
               {isSorting ? "Sorting..." : "Sort"}
             </button>
           </div>
+          {timeTaken && <p>⏱ Time Taken: {timeTaken} ms</p>}
 
           {/* Array Bars */}
           <div className="flex justify-center items-end h-40 xs:h-56 sm:h-80 w-full max-w-5xl bg-white rounded-lg shadow-lg px-1 sm:p-4">
